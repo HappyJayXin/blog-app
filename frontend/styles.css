@@ -1,0 +1,11 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+#posts {
+  margin-top: 20px;
+}
+.post {
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+}
