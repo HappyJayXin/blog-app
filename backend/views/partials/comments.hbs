@@ -1,0 +1,13 @@
+<section class="comments">
+  {{#if post.comments.length}}
+    <ul class="comment-list">
+      {{#each post.comments}}
+        <li class="comment">{{this.content}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+  <form action="/posts/{{post._id}}/comments" method="post">
+    <textarea name="content"></textarea>
+    <button type="submit">add comment</button>
+  </form>
+</section>
