@@ -1,24 +1,24 @@
-<h1>{{title}}</h1>
+<section class="posts">
+  <h1>{{title}}</h1>
 
-<form action="/posts" method="POST">
-  <input type="text" name="title" placeholder="標題" required>
-  <textarea name="content" placeholder="內容" required></textarea>
-  <button type="submit">新增文章</button>
+  <form class="post-form" action="/posts" method="POST">
+    <input type="text" name="title" placeholder="標題" required>
+    <textarea name="content" placeholder="內容" required></textarea>
+    <button type="submit">新增文章</button>
   </form>
 
-<hr>
-
-<ul>
-  {{#if posts.length}}
-    {{#each posts}}
-      <li>
-        <h3>{{this.title}}</h3>
-        <p>{{this.content}}</p>
-        <small>{{this.createdAt}}</small>
-      </li>
-    {{/each}}
-  {{else}}
-    <li>目前沒有文章</li>
-  {{/if}}
-</ul>
+  <ul class="post-list">
+    {{#if posts.length}}
+      {{#each posts}}
+        <li class="post">
+          <h3>{{this.title}}</h3>
+          <p>{{this.content}}</p>
+          <small>{{this.createdAt}}</small>
+        </li>
+      {{/each}}
+    {{else}}
+      <li class="empty">目前沒有文章</li>
+    {{/if}}
+  </ul>
+</section>
 
