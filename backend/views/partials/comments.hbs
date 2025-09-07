@@ -1,13 +1,16 @@
 <section class="comments">
+  <h4 class="comments-title">comments ({{post.comments.length}})</h4>
   {{#if post.comments.length}}
     <ul class="comment-list">
       {{#each post.comments}}
-        <li class="comment">{{this.content}}</li>
+        <li class="comment-item">{{this.content}}</li>
       {{/each}}
     </ul>
+  {{else}}
+    <p class="no-comments">no comments yet</p>
   {{/if}}
-  <form action="/posts/{{post._id}}/comments" method="post">
-    <textarea name="content"></textarea>
-    <button type="submit">add comment</button>
+  <form class="comment-form" action="/posts/{{post._id}}/comments" method="post">
+    <textarea name="content" placeholder="say something" required></textarea>
+    <button type="submit">comment</button>
   </form>
 </section>
