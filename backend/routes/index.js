@@ -1,25 +1,24 @@
 const express = require("express");
 const router = express.Router();
-const Post = require("../models/Post");
-const Comment = require("../models/Comment");
 const mongoose = require("mongoose");
+const { getTotals } = require("../services/stats");
 
 router.get("/", async (req, res) => {
-  let totalPosts = 0;
-  let totalComments = 0;
-  if (mongoose.connection.readyState === 1) {
+  let totals = { totalPosts: 0, totalComments: 0 };
+  const state = mongoose.connection.readyState;
+  if (state === 1) {
     try {
-      totalPosts = await Post.countDocuments();
-      totalComments = await Comment.countDocuments();
+      totals = await getTotals();
     } catch (err) {
-      // ignore db error
+      console.error("db query error", err);
     }
+  } else {
+    console.error("db state", state);
   }
   res.render("index", {
     title: "Blog App",
     message: "歡迎來到我的 Blog !",
-    totalPosts,
-    totalComments
+    ...totals
   });
 });
 

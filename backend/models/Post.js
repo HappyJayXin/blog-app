@@ -1,10 +1,25 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const PostSchema = new mongoose.Schema({
-  title: { type: String, required: true, trim: true },
-  content: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now }
+const PostSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true, trim: true },
+    content: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now }
+  },
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } }
+);
+
+PostSchema.virtual("comments", {
+  ref: "Comment",
+  localField: "_id",
+  foreignField: "post"
 });
 
-module.exports = mongoose.model('Post', PostSchema);
+PostSchema.pre("findOneAndDelete", async function(next) {
+  const postId = this.getQuery()._id;
+  await mongoose.model("Comment").deleteMany({ post: postId });
+  next();
+});
+
+module.exports = mongoose.model("Post", PostSchema);
 

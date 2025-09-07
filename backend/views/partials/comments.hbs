@@ -9,8 +9,13 @@
   {{else}}
     <p class="no-comments">目前還沒有留言</p>
   {{/if}}
-  <form class="comment-form" action="/posts/{{post._id}}/comments" method="post">
-    <textarea name="content" placeholder="寫下你的想法..." required></textarea>
+  <form
+    class="comment-form"
+    action="/posts/{{post._id}}/comments"
+    method="post"
+    onsubmit="return this.content.value.trim().length > 0;"
+  >
+    <textarea name="content" placeholder="寫下你的想法" required></textarea>
     <button type="submit">送出留言</button>
   </form>
 </section>

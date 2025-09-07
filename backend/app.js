@@ -10,6 +10,7 @@ require("dotenv").config();
 
 const indexRoutes = require("./routes/index");
 const postRoutes = require("./routes/posts");
+const hbsHelpers = require("./helpers/hbs");
 
 const app = express();
 
@@ -22,16 +23,7 @@ app.use(cookieParser());
 const hbs = exphbs.create({
   extname: ".hbs",
   defaultLayout: "main",
-  helpers: {
-    formatDate(date) {
-      // format date
-      return new Date(date).toLocaleDateString();
-    },
-    truncate(str, len) {
-      // shorten text
-      return str.length > len ? str.substring(0, len) + "..." : str;
-    }
-  },
+  helpers: hbsHelpers,
   partialsDir: path.join(__dirname, "views", "partials")
 });
 app.engine("hbs", hbs.engine);
