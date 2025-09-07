@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
   }
   res.render("index", {
     title: "Blog App",
-    message: "歡迎來到我的 Blog!",
+    message: "歡迎來到我的 Blog !",
     totalPosts,
     totalComments
   });
