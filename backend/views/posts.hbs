@@ -13,7 +13,8 @@
         <li class="post">
           <h3>{{this.title}}</h3>
           <p>{{this.content}}</p>
-          <small>{{this.createdAt}}</small>
+          <small>{{formatDate this.createdAt}}</small>
+          {{> comments post=this}}
         </li>
       {{/each}}
     {{else}}
