@@ -1,6 +1,56 @@
-<section class="welcome">
-  <h1>{{title}}</h1>
-  <p>{{message}}</p>
-  <a class="btn" href="/posts">查看文章列表</a>
+<section class="hero">
+  <h1>探索最新圖片</h1>
+  <p>收藏靈感與感動，和世界分享每一個令人驚豔的瞬間。</p>
 </section>
 
+<section class="form-card">
+  <h2>分享你的作品</h2>
+  {{#if formError}}
+    <div class="form-alert">{{formError}}</div>
+  {{/if}}
+  <form action="/images" method="post" class="upload-form">
+    <div class="form-grid">
+      <div class="input-field">
+        <label for="title">圖片標題</label>
+        <input id="title" name="title" type="text" placeholder="輸入圖片標題" required>
+      </div>
+      <div class="input-field">
+        <label for="url">圖片網址</label>
+        <input id="url" name="url" type="url" placeholder="例如 https://picsum.photos/seed/example/800/500" required>
+      </div>
+    </div>
+    <div class="input-field">
+      <label for="description">描述</label>
+      <textarea id="description" name="description" placeholder="簡單介紹這張照片的故事"></textarea>
+    </div>
+    <button class="btn-primary" type="submit">上傳圖片</button>
+  </form>
+</section>
+
+<section>
+  <h2 class="section-title">最新圖片</h2>
+  {{#if images.length}}
+    <div class="image-grid">
+      {{#each images}}
+        <article class="image-card">
+          <a href="/images/{{this.id}}">
+            <img src="{{this.url}}" alt="{{this.title}}">
+          </a>
+          <div class="image-meta">
+            <h3>{{this.title}}</h3>
+            {{#if this.description}}
+              <p>{{truncate this.description 80}}</p>
+            {{/if}}
+            <div class="image-stats">
+              <span>👁️ {{this.views}}</span>
+              <span>👍 {{this.likes}}</span>
+              <span>💬 {{this.comments.length}}</span>
+            </div>
+          </div>
+        </article>
+      {{/each}}
+    </div>
+  {{else}}
+    <p class="empty">目前沒有圖片</p>
+  {{/if}}
+</section>

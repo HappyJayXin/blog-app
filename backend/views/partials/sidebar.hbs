@@ -1,7 +1,39 @@
 <aside class="sidebar">
-  <h2 class="sidebar-title">統計資訊</h2>
-  <ul class="sidebar-stats">
-    <li>文章數 <strong>{{totalPosts}}</strong></li>
-    <li>留言數 <strong>{{totalComments}}</strong></li>
-  </ul>
+  <section class="sidebar-section">
+    <h2 class="sidebar-title">網站統計</h2>
+    <ul class="sidebar-stats">
+      <li>
+        <span>圖片數</span>
+        {{sidebar.stats.totalImages}}
+      </li>
+      <li>
+        <span>留言數</span>
+        {{sidebar.stats.totalComments}}
+      </li>
+      <li>
+        <span>總瀏覽</span>
+        {{sidebar.stats.totalViews}}
+      </li>
+      <li>
+        <span>總按讚</span>
+        {{sidebar.stats.totalLikes}}
+      </li>
+    </ul>
+  </section>
+  <section class="sidebar-section">
+    <h2 class="sidebar-title">最新留言</h2>
+    {{#if sidebar.comments.length}}
+      <ul class="sidebar-comments">
+        {{#each sidebar.comments}}
+          <li class="sidebar-comment">
+            <strong>{{this.name}}</strong>
+            <small>{{formatDate this.createdAt}}｜{{this.imageTitle}}</small>
+            <p>{{truncate this.text 80}}</p>
+          </li>
+        {{/each}}
+      </ul>
+    {{else}}
+      <p class="sidebar-empty">目前還沒有留言。</p>
+    {{/if}}
+  </section>
 </aside>

@@ -1,0 +1,68 @@
+<section class="image-detail">
+  <div class="form-card">
+    <div class="image-detail-header">
+      <h1 class="image-detail-title">{{image.title}}</h1>
+      <div class="detail-actions">
+        <button class="btn-primary" type="button" data-like-button data-image-id="{{image.id}}">
+          👍 按讚 <span class="like-count" data-like-count>{{image.likes}}</span>
+        </button>
+        <div class="image-stats">
+          <span>👁️ {{image.views}}</span>
+          <span>💬 {{comments.length}}</span>
+        </div>
+      </div>
+    </div>
+    <figure>
+      <img src="{{image.url}}" alt="{{image.title}}">
+    </figure>
+    {{#if image.description}}
+      <p class="image-description">{{image.description}}</p>
+    {{/if}}
+  </div>
+
+  <section class="comment-section">
+    <div class="comment-header">
+      <h2>留言 ({{comments.length}})</h2>
+      <button class="btn-secondary" type="button" data-comment-toggle>新增留言</button>
+    </div>
+    {{#if comments.length}}
+      <ul class="comment-list">
+        {{#each comments}}
+          <li class="comment-item">
+            <div class="comment-meta">
+              <strong>{{this.name}}</strong>
+              <span>{{formatDate this.createdAt}}</span>
+            </div>
+            <p>{{this.text}}</p>
+          </li>
+        {{/each}}
+      </ul>
+    {{else}}
+      <p class="empty">目前還沒有留言，成為第一位留言者吧！</p>
+    {{/if}}
+
+    <form
+      class="comment-form"
+      action="/images/{{image.id}}/comment"
+      method="post"
+      data-comment-form
+      hidden
+    >
+      <div class="form-grid">
+        <div class="input-field">
+          <label for="name">暱稱</label>
+          <input id="name" name="name" type="text" placeholder="留下你的名字">
+        </div>
+        <div class="input-field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="方便我們保持聯繫">
+        </div>
+      </div>
+      <div class="input-field">
+        <label for="text">留言內容</label>
+        <textarea id="text" name="text" placeholder="寫下你想說的話" required></textarea>
+      </div>
+      <button class="btn-primary" type="submit">送出留言</button>
+    </form>
+  </section>
+</section>
