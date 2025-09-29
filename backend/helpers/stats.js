@@ -1,13 +1,26 @@
-const { getTotals } = require("../models/ImageStore");
+const { Image, Comment } = require("../models");
 
 module.exports = {
   async getStats() {
-    const totals = getTotals();
+    const [totalImages, totalComments, metrics] = await Promise.all([
+      Image.countDocuments(),
+      Comment.countDocuments(),
+      Image.aggregate([
+        {
+          $group: {
+            _id: null,
+            totalViews: { $sum: "$views" },
+            totalLikes: { $sum: "$likes" }
+          }
+        }
+      ])
+    ]);
+    const totals = metrics[0] || { totalViews: 0, totalLikes: 0 };
     return {
-      totalImages: totals.images,
-      totalComments: totals.comments,
-      totalViews: totals.views,
-      totalLikes: totals.likes
+      totalImages,
+      totalComments,
+      totalViews: totals.totalViews || 0,
+      totalLikes: totals.totalLikes || 0
     };
   }
 };

@@ -8,15 +8,15 @@
   {{#if formError}}
     <div class="form-alert">{{formError}}</div>
   {{/if}}
-  <form action="/images" method="post" class="upload-form">
+  <form action="/images" method="post" class="upload-form" enctype="multipart/form-data">
     <div class="form-grid">
       <div class="input-field">
         <label for="title">圖片標題</label>
         <input id="title" name="title" type="text" placeholder="輸入圖片標題" required>
       </div>
       <div class="input-field">
-        <label for="url">圖片網址</label>
-        <input id="url" name="url" type="url" placeholder="例如 https://picsum.photos/seed/example/800/500" required>
+        <label for="image">圖片檔案</label>
+        <input id="image" name="image" type="file" accept="image/*" required>
       </div>
     </div>
     <div class="input-field">
@@ -34,7 +34,7 @@
       {{#each images}}
         <article class="image-card">
           <a href="/images/{{this.id}}">
-            <img src="{{this.url}}" alt="{{this.title}}">
+            <img src="{{this.fileUrl}}" alt="{{this.title}}">
           </a>
           <div class="image-meta">
             <h3>{{this.title}}</h3>
@@ -44,7 +44,7 @@
             <div class="image-stats">
               <span>👁️ {{this.views}}</span>
               <span>👍 {{this.likes}}</span>
-              <span>💬 {{this.comments.length}}</span>
+              <span>💬 {{this.commentsCount}}</span>
             </div>
           </div>
         </article>

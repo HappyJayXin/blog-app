@@ -49,3 +49,7 @@ Thumbs.db
 .docusaurus/
 storyshots/
 
+# Runtime uploads and test fixtures
+backend/public/upload/
+!backend/public/upload/.gitkeep
+backend/tests/fixtures/

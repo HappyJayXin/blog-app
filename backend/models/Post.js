@@ -10,16 +10,15 @@ const PostSchema = new mongoose.Schema(
 );
 
 PostSchema.virtual("comments", {
-  ref: "Comment",
+  ref: "PostComment",
   localField: "_id",
   foreignField: "post"
 });
 
 PostSchema.pre("findOneAndDelete", async function(next) {
   const postId = this.getQuery()._id;
-  await mongoose.model("Comment").deleteMany({ post: postId });
+  await mongoose.model("PostComment").deleteMany({ post: postId });
   next();
 });
 
 module.exports = mongoose.model("Post", PostSchema);
-
