@@ -1,19 +1,19 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-The application lives under `backend/`, with `server.js` bootstrapping Express and delegating to `app.js`. HTTP logic is split across `routes/` definitions and `controllers/` actions, while shared domain logic sits in `services/` and `helpers/`. Mongoose schemas reside in `models/`, Handlebars templates and partials are under `views/`, and static assets (images, scripts, styles) belong in `public/`. Jest integration tests live in `tests/`, mirroring the route they exercise.
+Application code resides in `backend/`. `server.js` boots Express and forwards to `app.js`, which wires middleware, view helpers, and routes. HTTP handlers live under `controllers/`, while `routes/` define URL mappings. Shared logic is grouped in `helpers/` and `services/`. Mongoose models are in `models/`, Handlebars layouts, views, and partials are in `views/`, and static assets (uploads, styles, scripts) live in `public/`. Integration fixtures and suites sit in `backend/tests/`, mirroring the features they exercise. Contributor-facing references, including the API curl playbook, are located in `backend/docs/api/`.
 
 ## Build, Test, and Development Commands
-Run `yarn install` once to sync dependencies. Create environment files with `cp .env.example .env` and populate `MONGO_URI` when not using the local fallback. Use `yarn dev` for a hot-reloading server via Nodemon, or `yarn start` for the production entry path. Execute `yarn test` to launch Jest in headless mode; set `NODE_ENV=test` to bypass Mongo connections during suites.
+Run `yarn install` once to sync dependencies. Use `yarn dev` for hot-reload development via Nodemon, or `yarn start` to boot the production Express server. Execute `yarn test` to run the Jest and Supertest suites; the command provisions an in-memory Mongo instance, so no manual database setup is required.
 
 ## Coding Style & Naming Conventions
-Follow the existing two-space indentation and `const`-first pattern seen in `backend/app.js`. Use `camelCase` for variables and functions, and `PascalCase` for Mongoose models (e.g., `Image`, `User`). Place shared helpers in `helpers/` and export them with descriptive names. Template files should keep snake-cased Handlebars partials (e.g., `views/partials/image_card.hbs`) for clarity. No formatter is bundled, so verify linting manually before opening a PR.
+Use two-space indentation, double quotes, and trailing commas where allowed. Favor `const` for imports and immutable references. Keep import order as: core packages, third-party packages, local modules. Use `camelCase` for variables and functions, `PascalCase` for Mongoose models (e.g., `Image`, `PostComment`). Handlebars partials remain snake_case (`views/partials/sidebar.hbs`). No automatic formatter is bundled; rely on ESLint defaults and review diffs before committing.
 
 ## Testing Guidelines
-Author route and controller tests beside their targets under `backend/tests/` with filenames ending in `.test.js`. Prefer Supertest for HTTP assertions and Jest snapshots only when rendering output stabilizes. Each test suite should stub external services and assert status codes, payload shape, and handlebars content. Capture regression cases before fixing bugs and ensure suites pass locally with `yarn test`.
+All suites belong in `backend/tests/` and must end with `.test.js`. Prefer Supertest for route verification, asserting status codes, payload shape, and rendered content where applicable. Stub external work (e.g., filesystem) to keep runs deterministic. Before pushing, run `yarn test`; include additional assertions for bug fixes to avoid regressions.
 
 ## Commit & Pull Request Guidelines
-Write concise, present-tense commits (`refactor data handling and add validation`, `feat: translate to zhtw`) and keep them scoped to a single concern. Reference related issues in the body when applicable. Pull requests should summarize changes, list manual or automated test results, and include screenshots for UI adjustments. Confirm `.env` secrets stay local and request review once branches are rebased on the latest `main`.
+Commits should be concise, present-tense, and scoped to one concern. Use the established prefixes (`feat:`, `fix:`, `update:`, `improve:`, `enhance:`) and keep subject lines under 72 characters. Pull requests must summarize changes, list manual or automated tests, and attach screenshots if UI behavior shifts. Reference related issues and ensure the branch is rebased on `master` prior to review.
 
-## Environment & Security Tips
-Use `.env` for tokens and database credentials and never commit the file -- `.env.example` documents required keys. Helmet is preconfigured; ensure new middleware preserves security headers. When adding third-party packages, record why in the PR description and update dependency scanning if necessary.
+## Security & Configuration Tips
+Copy `.env.example` to `.env` and provide `MONGO_URI` when not using the local fallback. Never commit real secrets; encrypted values belong in `.env.enc` if you maintain one. Helmet is preconfigured—verify additional middleware preserves the default security headers. Clean up uploaded temp files in new flows and document any third-party dependency you introduce.
